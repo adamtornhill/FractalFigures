@@ -21,9 +21,33 @@ class BuiltModel {
   }
 }
 
-BuiltModel buildModelFromMetrics(String metricsFileName) {
+int asInt(String raw) {
+  return Integer.parseInt(trim(raw));
+}
+
+Map<String, Integer> readAuthorColorsFrom(String authorColorsFileName) {
+  
+  Map<String, Integer> authorColors = new HashMap<String, Integer>();
+  String[] colorConfigLines = ReadInputLines(authorColorsFileName);
+  
+  for (int i=0; i < colorConfigLines.length; i++) {
+    String [] chars=split(colorConfigLines[i],',');
+    String author = chars[0];
+    int r = asInt(chars[1]);
+    int g = asInt(chars[2]);
+    int b = asInt(chars[3]);
+    
+    authorColors.put(author, color(r,g,b));
+  }
+  
+  return authorColors;
+}
+
+BuiltModel buildModelFromMetrics(String metricsFileName, String authorColorsFileName) {
   Map<String, Author> authors = new HashMap<String, Author>();
   Map<String, FractalEntity> entities = new HashMap<String, FractalEntity>();
+  
+  Map<String, Integer> authorColors = readAuthorColorsFrom(authorColorsFileName);
   
   String[] metricsAsLines = ReadInputLines(metricsFileName);
   
@@ -31,8 +55,8 @@ BuiltModel buildModelFromMetrics(String metricsFileName) {
     String [] chars=split(metricsAsLines[i],',');
     String entityName = chars[0];
     String author = chars[1];
-    int authorRevs = Integer.parseInt(chars[2]);
-    int totalRevs = Integer.parseInt(chars[3]);
+    int authorRevs = asInt(chars[2]);
+    int totalRevs = asInt(chars[3]);
     double fraction = (double)authorRevs / (double) totalRevs;
     
     String[] parts = split(entityName, "/");
@@ -40,7 +64,7 @@ BuiltModel buildModelFromMetrics(String metricsFileName) {
     
     Author a = authors.get(author);
     if (a == null) {
-      a = new Author(author);
+      a = makeColoredAuthorFrom(author, authorColors.get(author));
       authors.put(author, a);
     }
     
@@ -56,4 +80,12 @@ BuiltModel buildModelFromMetrics(String metricsFileName) {
   }
   
   return new BuiltModel(authors, entities);
+}
+
+Author makeColoredAuthorFrom(String authorName, Integer authorColor) {
+  if (authorColor != null) {
+    return new Author(authorName, authorColor);
+  }
+  
+  return new Author(authorName, color(0, 0, 0));
 }

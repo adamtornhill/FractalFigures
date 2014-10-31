@@ -25,7 +25,7 @@ int offset = 60;
 void draw() {
   background(230);
   
-  BuiltModel model = buildModelFromMetrics("data.csv");
+  BuiltModel model = buildModelFromMetrics("data.csv", "authors.csv");
   presentAuthorColorsFor(model.authors());
   presentFractalsFor(model.entities());
 }
