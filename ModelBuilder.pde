@@ -51,7 +51,8 @@ BuiltModel buildModelFromMetrics(File metricsFile, File authorColorsFile) {
   
   String[] metricsAsLines = ReadInputLines(metricsFile);
   
-  for (int i=0; i < metricsAsLines.length; i++) {
+  // Skip the heading (first line)
+  for (int i=1; i < metricsAsLines.length; i++) {
     String [] chars=split(metricsAsLines[i],',');
     String entityName = chars[0];
     String author = chars[1];

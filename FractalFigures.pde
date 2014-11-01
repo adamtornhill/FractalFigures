@@ -5,7 +5,7 @@
 
 import java.util.Calendar;
 
-// Usage: You need to provide two files: one with the ownership metrics and 
+// Usage: You need to provide two files: one with the entity-effort metrics and 
 //        one with the color to use for each author in the metrics file.
 //        Both files must be on the documented CSV format (error handling is 
 //        (almost) non-existent.
