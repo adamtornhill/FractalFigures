@@ -1,6 +1,6 @@
-String[] ReadInputLines(String csvFileName)
+String[] ReadInputLines(File csvFile)
 {
-  return loadStrings(csvFileName);
+  return loadStrings(csvFile.getAbsolutePath());
 }
 
 class BuiltModel {
@@ -25,10 +25,10 @@ int asInt(String raw) {
   return Integer.parseInt(trim(raw));
 }
 
-Map<String, Integer> readAuthorColorsFrom(String authorColorsFileName) {
+Map<String, Integer> readAuthorColorsFrom(File authorColorsFile) {
   
   Map<String, Integer> authorColors = new HashMap<String, Integer>();
-  String[] colorConfigLines = ReadInputLines(authorColorsFileName);
+  String[] colorConfigLines = ReadInputLines(authorColorsFile);
   
   for (int i=0; i < colorConfigLines.length; i++) {
     String [] chars=split(colorConfigLines[i],',');
@@ -43,13 +43,13 @@ Map<String, Integer> readAuthorColorsFrom(String authorColorsFileName) {
   return authorColors;
 }
 
-BuiltModel buildModelFromMetrics(String metricsFileName, String authorColorsFileName) {
+BuiltModel buildModelFromMetrics(File metricsFile, File authorColorsFile) {
   Map<String, Author> authors = new HashMap<String, Author>();
   Map<String, FractalEntity> entities = new HashMap<String, FractalEntity>();
   
-  Map<String, Integer> authorColors = readAuthorColorsFrom(authorColorsFileName);
+  Map<String, Integer> authorColors = readAuthorColorsFrom(authorColorsFile);
   
-  String[] metricsAsLines = ReadInputLines(metricsFileName);
+  String[] metricsAsLines = ReadInputLines(metricsFile);
   
   for (int i=0; i < metricsAsLines.length; i++) {
     String [] chars=split(metricsAsLines[i],',');

@@ -5,9 +5,10 @@
 
 import java.util.Calendar;
 
-// Usage: Prove a CSV file with the entity fragmentation.
-// In the current version that information must be stored in
-// the file data.csv (yes, I know - I'll fix it sometime).
+// Usage: You need to provide two files: one with the ownership metrics and 
+//        one with the color to use for each author in the metrics file.
+//        Both files must be on the documented CSV format (error handling is 
+//        (almost) non-existent.
 //
 // While the sketch is running, press one of the following options:
 // s       : saves the sketch to a timestamped file.
@@ -16,6 +17,26 @@ import java.util.Calendar;
 
 void setup() {
   size(1200,1200);
+  
+  selectInput("Select a file with author colors:", "authorFileSelected");
+}
+
+File authorFile = null;
+
+void authorFileSelected(File selection) {
+  if (selection != null) {
+    authorFile = selection;
+    selectInput("Select a file with ownership metrics:", "metricsFileSelected");
+  } 
+}
+
+File metricsFile = null;
+
+void metricsFileSelected(File selection) {
+  if (selection != null) {
+    metricsFile = selection;
+    loop();
+  } 
 }
 
 int fractalWidth = 100;
@@ -23,11 +44,19 @@ int fractalHeight = 100;
 int offset = 60;
 
 void draw() {
+  if (metricsFile == null) {
+    noLoop();
+    return;
+  }
+  
   background(230);
   
-  BuiltModel model = buildModelFromMetrics("data.csv", "authors.csv");
+  BuiltModel model = buildModelFromMetrics(metricsFile, authorFile);
   presentAuthorColorsFor(model.authors());
   presentFractalsFor(model.entities());
+  
+  // Performance: the fractals are heavy => do not re-draw
+  noLoop();
 }
   
 void presentFractalsFor(Map<String, FractalEntity> entities){
@@ -39,7 +68,6 @@ void presentFractalsFor(Map<String, FractalEntity> entities){
     pushMatrix();
     int myXOffset = usedWidth + offset;
     if ((myXOffset + fractalWidth) > width) {
-      println("new line for " + entityName);
       myXOffset = offset;
       usedWidth = 0;
       usedHeight += fractalHeight + offset;
@@ -55,9 +83,6 @@ void presentFractalsFor(Map<String, FractalEntity> entities){
     popMatrix();
   }
   // END 
-  
-  // Performance: the fractals are heavy => do not re-draw
-  noLoop();
 }
 
 void presentAuthorColorsFor(Map<String, Author> authors) {
