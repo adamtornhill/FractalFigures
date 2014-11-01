@@ -52,16 +52,15 @@ void draw() {
   background(230);
   
   BuiltModel model = buildModelFromMetrics(metricsFile, authorFile);
-  presentAuthorColorsFor(model.authors());
-  presentFractalsFor(model.entities());
+  int usedHeight = presentAuthorColorsFor(model.authors());
+  presentFractalsFor(model.entities(), usedHeight);
   
   // Performance: the fractals are heavy => do not re-draw
   noLoop();
 }
   
-void presentFractalsFor(Map<String, FractalEntity> entities){
+void presentFractalsFor(Map<String, FractalEntity> entities, int usedHeight){
   int usedWidth = 0;
-  int usedHeight = offset;
   int xcount = 0;
   
   for(String entityName : entities.keySet()) {
@@ -85,22 +84,27 @@ void presentFractalsFor(Map<String, FractalEntity> entities){
   // END 
 }
 
-void presentAuthorColorsFor(Map<String, Author> authors) {
+int presentAuthorColorsFor(Map<String, Author> authors) {
+  int usedHeight = 0;
   int acount = 0;
   for (String authorName : authors.keySet()) {
     Author author = authors.get(authorName);
     author.activateInDrawing();
     
     rect(10, 10*acount, 10, 10);
+    usedHeight += 10;
    
     int fontSize = 14;
       
     textSize(fontSize);
     fill(0);
     text(authorName, 30, 10*acount + 10);
+    usedHeight += 10;
     
     ++acount;
   }
+  
+  return usedHeight;
 }
 
 void keyReleased() {
