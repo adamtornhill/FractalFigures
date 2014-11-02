@@ -8,6 +8,10 @@ Copyright © 2014 Adam Tornhill
 
 Distributed under the [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl.html).
 
+## Credits
+
+The algorithm and idea comes from research by D'Ambros and Lanza as published in their paper Fractal Figures: Visualizing Development Effort for CVS Entities.
+
 ## Usage
 
 Run the sketch in [Processing](https://www.processing.org/). When you start the program, it will prompt you for two files:
