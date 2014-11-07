@@ -27,6 +27,10 @@ The author color information has to be given as a CSV of author and RGB color (p
 
 That's it - the fractal figures will appear together with a color legend to interpret them.
 
+### Additional commands
+
+During a visualization, press `s` to save an image to disk. In case you haven't provided a file with color mappings, the visualization will generate random colors. Just press `space` to re-draw the image using a new set of colors.
+
 ## Warnings
 
 Note that the implementation is quick and dirty (with emphasis on the later). That means, input data isn't validated. In practice it shouldn't be much of a problem - you'll notice fast.

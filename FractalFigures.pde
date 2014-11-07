@@ -24,10 +24,10 @@ void setup() {
 File authorFile = null;
 
 void authorFileSelected(File selection) {
-  if (selection != null) {
-    authorFile = selection;
-    selectInput("Select a file with ownership metrics:", "metricsFileSelected");
-  } 
+  // Don't care if the user didn't provide a color mapping => we'll generate random colors 
+  // as a fallback.
+  authorFile = selection;
+  selectInput("Select a file with ownership metrics:", "metricsFileSelected"); 
 }
 
 File metricsFile = null;
