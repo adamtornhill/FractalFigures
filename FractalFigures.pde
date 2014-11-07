@@ -49,7 +49,7 @@ void draw() {
     return;
   }
   
-  background(230);
+  background(255);
   
   BuiltModel model = buildModelFromMetrics(metricsFile, authorFile);
   int usedHeight = presentAuthorColorsFor(model.authors());
@@ -91,20 +91,20 @@ int presentAuthorColorsFor(Map<String, Author> authors) {
     Author author = authors.get(authorName);
     author.activateInDrawing();
     
-    rect(10, 10*acount, 10, 10);
+    rect(10, 10 + 10*acount, 10, 10);
     usedHeight += 10;
    
     int fontSize = 14;
       
     textSize(fontSize);
     fill(0);
-    text(authorName, 30, 10*acount + 10);
+    text(authorName, 30, 10 + 10*acount + 10);
     usedHeight += 10;
     
     ++acount;
   }
   
-  return usedHeight;
+  return usedHeight + 10;
 }
 
 void keyReleased() {
