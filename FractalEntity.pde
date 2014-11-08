@@ -42,9 +42,10 @@ class FractalEntity {
     Collections.sort(parts, new FractalComparator());
   }
 
-  private void drawFractals(int fi, int xleft, int yleft) {
-    if (fi >= parts.size())
+  private void drawFractals(int fi, float xleft, float yleft) {
+    if (fi >= parts.size()) {
       return; // terminate the recursion
+    }
    
     pushMatrix();
     
@@ -53,16 +54,16 @@ class FractalEntity {
     author.activateInDrawing();
     
     if ((fi % 2) == 0) {
-      int yLen = yleft;
-      int xLen = calcFractalSide(yLen, fractal.fraction);
+      float yLen = yleft;
+      float xLen = calcFractalSide(yLen, fractal.fraction);
     
       rect(0,0,xLen,yLen);
       translate(xLen, 0);
       drawFractals(++fi, xleft - xLen, yleft); // doesn't consume Y
     }
     else {
-      int xLen = xleft;
-      int yLen = calcFractalSide(xLen, fractal.fraction);
+      float xLen = xleft;
+      float yLen = calcFractalSide(xLen, fractal.fraction);
     
       rect(0,0,xLen,yLen);
       translate(0, yLen);
@@ -71,8 +72,8 @@ class FractalEntity {
     popMatrix();
   }
   
-  private int calcFractalSide(int knownSide, double fractal) {
-    int area = fractalWidth * fractalHeight;
-    return (int) (fractal * area) / knownSide;
+  private float calcFractalSide(float knownSide, float fractal) {
+    float area = fractalWidth * fractalHeight;
+    return (fractal * area) / knownSide;
   }
 }

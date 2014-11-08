@@ -62,7 +62,7 @@ BuiltModel buildModelFromMetrics(File metricsFile, File authorColorsFile) {
     String author = chars[1];
     int authorRevs = asInt(chars[2]);
     int totalRevs = asInt(chars[3]);
-    double fraction = (double)authorRevs / (double) totalRevs;
+    float fraction = (float)authorRevs / (float) totalRevs;
     
     String[] parts = split(entityName, "/");
     String shortName = parts[parts.length - 1];

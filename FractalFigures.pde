@@ -42,6 +42,7 @@ void metricsFileSelected(File selection) {
 int fractalWidth = 100;
 int fractalHeight = 100;
 int offset = 60;
+int heightOffset = 10;
 
 void draw() {
   if (metricsFile == null) {
@@ -91,20 +92,20 @@ int presentAuthorColorsFor(Map<String, Author> authors) {
     Author author = authors.get(authorName);
     author.activateInDrawing();
     
-    rect(10, 10 + 10*acount, 10, 10);
+    rect(10, heightOffset + 10*acount, 10, 10);
     usedHeight += 10;
    
     int fontSize = 14;
       
     textSize(fontSize);
     fill(0);
-    text(authorName, 30, 10 + 10*acount + 10);
+    text(authorName, 30, heightOffset + 10*acount + 10);
     usedHeight += 10;
     
     ++acount;
   }
   
-  return usedHeight + 10;
+  return usedHeight + heightOffset;
 }
 
 void keyReleased() {
