@@ -5,10 +5,8 @@
 
 import java.util.Calendar;
 
-// Usage: You need to provide two files: one with the entity-effort metrics and 
-//        one with the color to use for each author in the metrics file.
-//        Both files must be on the documented CSV format (error handling is 
-//        (almost) non-existent.
+// Usage: Launch the sketch and it will prompt you for a file with entity-effort metrics (CSV).
+// Each author is assigned a random color.
 //
 // While the sketch is running, press one of the following options:
 // s       : saves the sketch to a timestamped file.
@@ -18,15 +16,6 @@ import java.util.Calendar;
 void setup() {
   size(1200,1200);
   
-  selectInput("Select a file with author colors:", "authorFileSelected");
-}
-
-File authorFile = null;
-
-void authorFileSelected(File selection) {
-  // Don't care if the user didn't provide a color mapping => we'll generate random colors 
-  // as a fallback.
-  authorFile = selection;
   selectInput("Select a file with ownership metrics:", "metricsFileSelected"); 
 }
 
@@ -38,6 +27,10 @@ void metricsFileSelected(File selection) {
     loop();
   } 
 }
+
+// This sketch if a proof of concept, and never meant to scale.
+// Limit to just a few entities so that it at least looks nice.
+int maximumEntitiesInSketch = 20;
 
 int fractalWidth = 100;
 int fractalHeight = 100;
@@ -52,7 +45,7 @@ void draw() {
   
   background(255);
   
-  BuiltModel model = buildModelFromMetrics(metricsFile, authorFile);
+  BuiltModel model = buildModelFromMetrics(metricsFile);
   int usedHeight = presentAuthorColorsFor(model.authors());
   presentFractalsFor(model.entities(), usedHeight);
   
@@ -65,7 +58,7 @@ void presentFractalsFor(Map<String, FractalEntity> entities, int usedHeight){
   int xcount = 0;
   
   for(String entityName : entities.keySet()) {
-    pushMatrix();
+    pushMatrix(); // Note: cannot push more than 32. This is safe as long as maximumEntitiesInSketch is lower. 
     int myXOffset = usedWidth + offset;
     if ((myXOffset + fractalWidth) > width) {
       myXOffset = offset;
@@ -82,30 +75,30 @@ void presentFractalsFor(Map<String, FractalEntity> entities, int usedHeight){
     
     popMatrix();
   }
-  // END 
 }
 
 int presentAuthorColorsFor(Map<String, Author> authors) {
   int usedHeight = 0;
   int acount = 0;
+  final int verticalSpace = 14;
   for (String authorName : authors.keySet()) {
     Author author = authors.get(authorName);
     author.activateInDrawing();
     
-    rect(10, heightOffset + 10*acount, 10, 10);
-    usedHeight += 10;
+    final int yPosition = heightOffset + verticalSpace * acount;
+    rect(10, yPosition, 10, 10);
+    usedHeight += verticalSpace;
    
     int fontSize = 14;
       
     textSize(fontSize);
     fill(0);
-    text(authorName, 30, heightOffset + 10*acount + 10);
-    usedHeight += 10;
+    text(authorName, 30, yPosition + 10);
     
     ++acount;
   }
   
-  return usedHeight + heightOffset;
+  return usedHeight + 20;
 }
 
 void keyReleased() {
@@ -122,4 +115,3 @@ String timestamp() {
   Calendar now = Calendar.getInstance();
   return String.format("%1$ty%1$tm%1$td_%1$tH%1$tM%1$tS", now);
 }
-
