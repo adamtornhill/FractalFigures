@@ -80,18 +80,20 @@ void presentFractalsFor(Map<String, FractalEntity> entities, int usedHeight){
 int presentAuthorColorsFor(Map<String, Author> authors) {
   int usedHeight = 0;
   int acount = 0;
+  final int verticalSpace = 14;
   for (String authorName : authors.keySet()) {
     Author author = authors.get(authorName);
     author.activateInDrawing();
     
-    rect(10, heightOffset + 10*acount, 10, 10);
-    usedHeight += 10;
+    final int yPosition = heightOffset + verticalSpace * acount;
+    rect(10, yPosition, 10, 10);
+    usedHeight += verticalSpace;
    
     int fontSize = 14;
       
     textSize(fontSize);
     fill(0);
-    text(authorName, 30, heightOffset + 10*acount + 10);
+    text(authorName, 30, yPosition + 10);
     
     ++acount;
   }
