@@ -28,6 +28,10 @@ void metricsFileSelected(File selection) {
   } 
 }
 
+// This sketch if a proof of concept, and never meant to scale.
+// Limit to just a few entities so that it at least looks nice.
+int maximumEntitiesInSketch = 20;
+
 int fractalWidth = 100;
 int fractalHeight = 100;
 int offset = 60;

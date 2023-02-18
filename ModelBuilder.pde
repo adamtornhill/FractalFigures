@@ -25,6 +25,9 @@ int asInt(String raw) {
   return Integer.parseInt(trim(raw));
 }
 
+Boolean canBuildMoreFractals(final Map<String, FractalEntity> entities) {
+  return entities.size() < maximumEntitiesInSketch;
+}
 
 BuiltModel buildModelFromMetrics(File metricsFile) {
   Map<String, Author> authors = new HashMap<String, Author>();
@@ -34,6 +37,12 @@ BuiltModel buildModelFromMetrics(File metricsFile) {
   
   // Skip the heading (first line)
   for (int i=1; i < metricsAsLines.length; i++) {
+    // Let's return early if we cannot visualize more fractals than 
+    // we have parsed so far.
+    if (!canBuildMoreFractals(entities)) {
+      return new BuiltModel(authors, entities);
+    }
+    
     String [] chars=split(metricsAsLines[i],',');
     String entityName = chars[0];
     String author = chars[1];
