@@ -34,7 +34,10 @@ class FractalEntity {
     @Override
     public int compare(FractalPart o1, FractalPart o2) {
         // sort in descending order
-        return new Double(o2.fraction).compareTo(new Double(o1.fraction));
+        final Float f2 = o2.fraction;
+        final Float f1 = o1.fraction;
+        
+        return f2.compareTo(f1);
     }
   }
   
