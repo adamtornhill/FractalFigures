@@ -23,9 +23,10 @@ class FractalEntity {
       fill(10);
       int adjustment = adjustText ? 30 : 15;
       int fontSize = 14;
+      int textXplacement = offset - (fractalWidth / 2);
       
       textSize(fontSize);
-      text(name, -offset, fractalHeight + adjustment);
+      text(name, textXplacement, fractalHeight + adjustment);
       
       return fractalWidth; // TODO: return the whole box
   }
