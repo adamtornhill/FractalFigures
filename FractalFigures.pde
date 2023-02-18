@@ -58,7 +58,7 @@ void presentFractalsFor(Map<String, FractalEntity> entities, int usedHeight){
   int xcount = 0;
   
   for(String entityName : entities.keySet()) {
-    pushMatrix();
+    pushMatrix(); // Note: cannot push more than 32. This is safe as long as maximumEntitiesInSketch is lower. 
     int myXOffset = usedWidth + offset;
     if ((myXOffset + fractalWidth) > width) {
       myXOffset = offset;
@@ -75,7 +75,6 @@ void presentFractalsFor(Map<String, FractalEntity> entities, int usedHeight){
     
     popMatrix();
   }
-  // END 
 }
 
 int presentAuthorColorsFor(Map<String, Author> authors) {
@@ -93,12 +92,11 @@ int presentAuthorColorsFor(Map<String, Author> authors) {
     textSize(fontSize);
     fill(0);
     text(authorName, 30, heightOffset + 10*acount + 10);
-    usedHeight += 10;
     
     ++acount;
   }
   
-  return usedHeight + heightOffset;
+  return usedHeight + 20;
 }
 
 void keyReleased() {
